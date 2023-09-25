@@ -48,6 +48,10 @@ class Task:
     def status(self, status):
         self._status = status
 
+    @staticmethod
+    def view
+
+
     def update(self, title=None, description=None, due_date=None, priority=None, status=None):
         # Update task attributes if new values are provided
         if title is not None:

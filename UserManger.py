@@ -27,10 +27,10 @@ class UserManger:
         while password != data["password"]:
             password = input("Invalid Password!").strip()
 
-    @classmethod
-    def log_in(cls):
-        username = cls.valid_username(input("Enter your username: ").strip())
-        cls.valid_password(username, input("Enter your Password: ").strip())
+
+    def log_in(self):
+        username = self.valid_username(input("Enter your username: ").strip())
+        self.valid_password(username, input("Enter your Password: ").strip())
         return username
 
 def main():
