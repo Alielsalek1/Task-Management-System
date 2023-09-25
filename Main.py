@@ -9,6 +9,10 @@ def system_run():
         UserManger.sign_up()
 
 def main():
+
+    ali = UserManger()
+    ali.log_in()
+
     while True:
         system_run()
 
