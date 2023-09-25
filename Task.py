@@ -1,4 +1,5 @@
 class Task:
+
     def __init__(self, title, description, due_date, priority, status=False):
         # Initialize a Task object with provided attributes
         self._title = title
@@ -7,19 +8,6 @@ class Task:
         self._priority = priority
         self._status = status
 
-    class TaskDictionary(dict):
-        def __init__(self):
-            self.tasks = {}
-
-        def __getitem__(self, key):
-            return self.tasks[key]
-
-        def add_task(self, task):
-            # Add a task to the dictionary using the task's title as the key.
-            self.tasks[task.title] = task
-
-
-    # Getters and Setters
     @property
     def title(self):
         return self._title
@@ -93,3 +81,10 @@ class Task:
     def __str__(self):
         # Get a string representation of the task
         return self.get_details()
+
+
+def main():
+    pass
+
+if __name__ == main:
+    main()
