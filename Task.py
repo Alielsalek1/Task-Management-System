@@ -7,6 +7,18 @@ class Task:
         self._priority = priority
         self._status = status
 
+    class TaskDictionary(dict):
+        def __init__(self):
+            self.tasks = {}
+
+        def __getitem__(self, key):
+            return self.tasks[key]
+
+        def add_task(self, task):
+            # Add a task to the dictionary using the task's title as the key.
+            self.tasks[task.title] = task
+
+
     # Getters and Setters
     @property
     def title(self):
