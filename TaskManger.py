@@ -19,21 +19,21 @@ class TaskManager:
         )
         return task
 
-    def add_task(self,task):
+    def add_task_to_db(self, task):
 
         # Load the existing JSON file into a Python dictionary
         with open(self.filename, 'r') as file:
-            data = json.load(file)
+            tasks = json.load(file)
 
         # Define the new user object
         new_task = task.to_dict()
 
         # Append the new user to the "users" list in the dictionary
-        data['tasks'].append(new_task)
+        tasks.extend(new_task)
 
         # Write the updated dictionary back to the JSON file
         with open('data.json', 'w') as file:
-            json.dump(data, file, indent=4)
+            json.dump(tasks, file, indent=4)
 
 
     def get_task(self, title):
