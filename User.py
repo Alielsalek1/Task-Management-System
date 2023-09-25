@@ -3,7 +3,7 @@ import json
 
 class User:
     @staticmethod
-    def create_user(username, password):
+    def add_user_to_database(username, password):
         # credentials of the user to be stored as a json file
         data = {
             "username": username,
@@ -34,7 +34,7 @@ class User:
         self._password = password
         self._tasks = {}
 
-        self.create_user(username, password)
+        self.add_user_to_database(username, password)
 
     @property
     def username(self):
