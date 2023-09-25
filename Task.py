@@ -84,7 +84,7 @@ class Task:
                 "due_date": self.due_date,
                 "priority": self.priority,
                 "status": self.status
-        }
+                }
 
     def __str__(self):
         # Get a string representation of the task
