@@ -9,6 +9,7 @@ class User:
             "username": username,
             "password": password
         }
+
         # creating the string data to be ready to be added to directory
         json_data = json.dumps(data, indent=4)
 

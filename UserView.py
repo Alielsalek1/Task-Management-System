@@ -15,7 +15,8 @@ class UserView:
         print("         2: Edit a Task")
         print("         3: delete a Task")
         print("         4: view all Tasks")
-        return check_number_in_range(1, 4)
+        print("         5: Logout")
+        return check_number_in_range(1, 5)
 
 def main():
     pass

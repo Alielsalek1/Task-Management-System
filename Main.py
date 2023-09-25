@@ -1,14 +1,12 @@
 from UserView import *
 from UserManger import *
 
-
 def system_run():
     choice = UserView.main_menu()
-    if int(choice) == 1:
-        ...
+    if int(choice) == int(1):
+        UserManger.log_in()
     else:
         UserManger.sign_up()
-
 
 def main():
     while True:
