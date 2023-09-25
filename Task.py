@@ -47,7 +47,6 @@ class Task:
     @status.setter
     def status(self, status):
         self._status = status
-
     def update(self, title=None, description=None, due_date=None, priority=None, status=None):
         # Update task attributes if new values are provided
         if title is not None:
@@ -77,6 +76,15 @@ class Task:
             f"Priority: {self.priority}\n"
             f"Status: {status_str}"
         )
+
+    def to_dict(self):
+        # Define a method to convert an object instance to a dictionary.
+        return {"title": self.title,
+                "description": self.description,
+                "due_date": self.due_date,
+                "priority": self.priority,
+                "status": self.status
+        }
 
     def __str__(self):
         # Get a string representation of the task
