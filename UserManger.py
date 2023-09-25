@@ -1,4 +1,5 @@
 from InputValidators import *
+from TaskManger import *
 from User import *
 
 class UserManger:
@@ -31,7 +32,7 @@ class UserManger:
     def log_in(cls):
         username = cls.valid_username(input("Enter your username: ").strip())
         cls.valid_password(username, input("Enter your Password: ").strip())
-        return username
+        TaskManager.choose_from_menu(username)
 
 def main():
     pass
