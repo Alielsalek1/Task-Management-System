@@ -90,7 +90,6 @@ class Task:
         # Get a string representation of the task
         return self.get_details()
 
-
 def main():
     pass
 
