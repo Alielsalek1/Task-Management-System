@@ -2,6 +2,29 @@ import os
 import json
 
 class User:
+    def __init__(self, username, password):
+        self._username = username
+        self._password = password
+        self._tasks = {}
+
+        self.add_user_to_db(username, password)
+
+    @property
+    def username(self):
+        return self._username
+
+    @username.setter
+    def username(self, username):
+        self._username = username
+
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        self._password = password
+
     @staticmethod
     def add_user_to_db(username, password):
         # credentials of the user to be stored as a json file
@@ -28,29 +51,6 @@ class User:
         # Save credentials to json file
         with open(f"{credentials_file}", 'w') as file:
             file.write(json_data)
-
-    def __init__(self, username, password):
-        self._username = username
-        self._password = password
-        self._tasks = {}
-
-        self.add_user_to_database(username, password)
-
-    @property
-    def username(self):
-        return self._username
-
-    @username.setter
-    def username(self, username):
-        self._username = username
-
-    @property
-    def password(self):
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        self._password = password
 
 def main():
     pass

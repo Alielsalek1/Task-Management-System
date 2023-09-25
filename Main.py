@@ -1,4 +1,3 @@
-from UserView import *
 from UserManger import *
 
 def system_run():
