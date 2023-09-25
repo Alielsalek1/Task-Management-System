@@ -36,6 +36,7 @@ class TaskManager:
         )
         return task
 
+    # add the task to json file
     def add_task(self, task):
 
         # Load the existing JSON file into a Python dictionary
