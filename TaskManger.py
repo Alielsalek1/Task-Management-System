@@ -1,11 +1,28 @@
 import json
 import Task
+from UserView import *
 
 class TaskManager:
 
     def __init__(self, filename):
         # Initialize a TaskManager with a JSON file for storing tasks
         self.filename = filename
+
+    @classmethod
+    def choose_from_menu(cls, username):
+        while True:
+            choice = UserView.user_menu()
+            match choice:
+                case 1:
+                    ...
+                case 2:
+                    ...
+                case 3:
+                    ...
+                case 4:
+                    ...
+                case 5:
+                    break
 
     @classmethod
     def instantiate_from_json(cls, json_data):
@@ -19,7 +36,7 @@ class TaskManager:
         )
         return task
 
-    def add_task(self,task):
+    def add_task(self, task):
 
         # Load the existing JSON file into a Python dictionary
         with open(self.filename, 'r') as file:
@@ -53,5 +70,8 @@ class TaskManager:
         if tasks:
             # Create an instance of the Task class using the data from the JSON dictionary.
             return Task.Task(**tasks)
+def main():
+    pass
 
-
+if __name__ == '__main__':
+    main()
