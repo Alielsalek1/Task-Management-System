@@ -1,11 +1,13 @@
 class Task:
     def __init__(self, title, description, due_date, priority, status=False):
+        # Initialize a Task object with provided attributes
         self._title = title
         self._description = description
         self._due_date = due_date
         self._priority = priority
         self._status = status
 
+    # Getters and Setters
     @property
     def title(self):
         return self._title
@@ -45,7 +47,9 @@ class Task:
     @status.setter
     def status(self, status):
         self._status = status
+
     def update(self, title=None, description=None, due_date=None, priority=None, status=None):
+        # Update task attributes if new values are provided
         if title is not None:
             self.title(title)
         if description is not None:
@@ -64,6 +68,7 @@ class Task:
         self.status = False
 
     def get_details(self):
+        # Get a formatted string containing task details
         status_str = "Completed" if self.status else "Incomplete"
         return (
             f"Title: {self.title}\n"
@@ -74,4 +79,5 @@ class Task:
         )
 
     def __str__(self):
+        # Get a string representation of the task
         return self.get_details()
