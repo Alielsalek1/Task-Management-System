@@ -3,7 +3,7 @@ import json
 
 class User:
     @staticmethod
-    def add_user_to_database(username, password):
+    def add_user_to_db(username, password):
         # credentials of the user to be stored as a json file
         data = {
             "username": username,
