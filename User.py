@@ -1,31 +1,39 @@
+import os
+import json
+
 class User:
-    class UserSet:
-        def __init__(self):
-            self.users = {}
-
-        def __getitem__(self, key):
-            return self.users[key]
-
-        def add_user(self, user):
-            self.users[user.username] = user
-
-    # Avoid repetition of usernames
-    taken_user_names = set()
-
-    # a hash-map for users and another for admins
-    users = UserSet()
-
     @staticmethod
-    def add_to_database(username):
-        with open("Database", "a") as file:
-            file.write(username)
+    def create_user(username, password):
+        # credentials of the user to be stored as a json file
+        data = {
+            "username": username,
+            "password": password
+        }
+        # creating the string data to be ready to be added to directory
+        json_data = json.dumps(data, indent=4)
+
+        # creating a directory holding the username to store his data
+        file_path = os.path.join("UserData", username)
+        os.mkdir(file_path)
+
+        # creating empty tasks json file to read a list of tasks
+        tasks_file = os.path.join(file_path, "tasks.json")
+        with open(f"{tasks_file}", 'w') as file:
+            file.write('{}')
+
+        # Path for storing credentials
+        credentials_file = os.path.join(file_path, "Credentials.json")
+
+        # Save credentials to json file
+        with open(f"{credentials_file}", 'w') as file:
+            file.write(json_data)
 
     def __init__(self, username, password):
         self._username = username
         self._password = password
         self._tasks = {}
 
-        self.add_to_database(username)
+        self.create_user(username, password)
 
     @property
     def username(self):
@@ -42,11 +50,6 @@ class User:
     @password.setter
     def password(self, password):
         self._password = password
-
-    @classmethod
-    def check_unique(cls, username):
-        while username in cls.taken_user_names:
-            username = input("Please Enter another username as this one is taken: ").strip()
 
 def main():
     pass

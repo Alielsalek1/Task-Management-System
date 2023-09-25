@@ -8,6 +8,15 @@ class UserView:
         print("         2: Sign Up")
         return check_number_in_range(1, 2)
 
+    @staticmethod
+    def user_menu():
+        print("\nMenu: ")
+        print("         1: add a Task")
+        print("         2: Edit a Task")
+        print("         3: delete a Task")
+        print("         4: view all Tasks")
+        return check_number_in_range(1, 4)
+
 def main():
     pass
 
