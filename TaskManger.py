@@ -79,7 +79,7 @@ class TaskManager:
         return data
 
     @staticmethod
-    def print_task(all_tasks):
+    def print_user_tasks(all_tasks):
         for task in all_tasks:
             print(task["title"])
             print(f"Description: {task['description']}")
@@ -94,12 +94,12 @@ class TaskManager:
 
         match choice:
             case 1:
-                cls.print_task(sorted(all_tasks, key=lambda x: x["priority"]))
+                cls.print_user_tasks(sorted(all_tasks, key=lambda x: x["priority"]))
             case 2:
-                cls.print_task(sorted(all_tasks, key=lambda x: x["title"]))
+                cls.print_user_tasks(sorted(all_tasks, key=lambda x: x["title"]))
             case 3:
                 date_format = "%d/%m/%Y"
-                cls.print_task(sorted(all_tasks, key=lambda x: datetime.strptime(x["date"], date_format)))
+                cls.print_user_tasks(sorted(all_tasks, key=lambda x: datetime.strptime(x["date"], date_format)))
 
 def main():
     pass
