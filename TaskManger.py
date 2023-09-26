@@ -35,11 +35,10 @@ class TaskManager:
         )
         return task
 
-    @classmethod
-    def add_task_to_db(cls,username, task):
+    def add_task_to_db(self, username, task):
 
         # Load the existing JSON file into a Python dictionary
-        with open(f"UserData/{username}/tasks.json", 'r') as file:
+        with open(self.filename, 'r') as file:
             tasks = json.load(file)
 
         # Define the new user object
@@ -52,19 +51,17 @@ class TaskManager:
         with open(f"UserData/{username}/tasks.json", 'w') as file:
             json.dump(tasks, file, indent=4)
 
-    @classmethod
-    def get_task(cls, username , title):
+    def get_task(self, title):
         """
          Retrieve a task by its title.
 
          Args:
-             username (str): The username of the task owner.
              title (str): The title of the task to retrieve.
 
          Returns:
              Task: An instance of the Task class representing the retrieved task, or None if not found.
          """
-        with open(f"UserData/{username}/tasks.json", 'r') as file:
+        with open(self.filename, 'r') as file:
             tasks = json.load(file)
 
         # Check if there are tasks in the JSON data.
@@ -82,13 +79,42 @@ class TaskManager:
         return data
 
     @staticmethod
-    def print_user_tasks(all_tasks):
+    def print_all_tasks(all_tasks):
         for task in all_tasks:
             print(task["title"])
             print(f"Description: {task['description']}")
             print(f"Due Date: {task['due_date']}")
             print(f"Priority: {task['priority']}")
             print(f"Status: {task['status']}")
+
+    @staticmethod
+    def list_tasks_description(all_tasks):
+        # list tasks title to delete the one the user selects
+        cnt = 0
+        for task in all_tasks:
+            cnt += 1
+            print(f"1 - {task['title']}")
+        return cnt
+
+    @classmethod
+    def delete_task(cls, username):
+        # an array which is the json file
+        all_tasks = cls.get_user_tasks(username)
+
+        # choose the object you want to delete
+        choice = check_number_in_range(1, cls.list_tasks_description(all_tasks))
+        choice -= 1
+
+        # filter the data
+        filtered_data = [task for task in all_tasks if all_tasks[choice] != task]
+
+        # clear the json file
+        path = f"UserData/{username}/tasks.json"
+        empty_json_file(path)
+
+        # put in the filtered data
+        with open(path, 'w') as file:
+            json.dump(filtered_data, file, indent=4)
 
     @classmethod
     def view_tasks(cls, username):
@@ -97,12 +123,11 @@ class TaskManager:
 
         match choice:
             case 1:
-                cls.print_user_tasks(sorted(all_tasks, key=lambda x: x["priority"]))
+                cls.print_all_tasks(sorted(all_tasks, key=lambda x: x["priority"]))
             case 2:
-                cls.print_user_tasks(sorted(all_tasks, key=lambda x: x["title"]))
+                cls.print_all_tasks(sorted(all_tasks, key=lambda x: x["title"]))
             case 3:
-                date_format = "%d/%m/%Y"
-                cls.print_user_tasks(sorted(all_tasks, key=lambda x: datetime.strptime(x["date"], date_format)))
+                ...
 
 def main():
     pass

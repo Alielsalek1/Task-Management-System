@@ -49,6 +49,10 @@ def verify_argument_not_empty(input_str):
         input_str = input().strip()
     return input_str
 
+def empty_json_file(path):
+    with open(path, 'w') as file:
+        file.write('{}')
+
 def verify_due_date(date_str):
     """
       Verify and parse a due date string.

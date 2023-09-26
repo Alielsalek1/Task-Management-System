@@ -1,5 +1,6 @@
 import os
 import json
+from InputValidators import *
 
 class User:
     def __init__(self, username, password):
@@ -42,8 +43,7 @@ class User:
 
         # creating empty tasks json file to read a list of tasks
         tasks_file = os.path.join(file_path, "tasks.json")
-        with open(f"{tasks_file}", 'w') as file:
-            file.write('{}')
+        empty_json_file(tasks_file)
 
         # Path for storing credentials
         credentials_file = os.path.join(file_path, "Credentials.json")
