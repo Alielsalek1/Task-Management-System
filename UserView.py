@@ -18,6 +18,14 @@ class UserView:
         print("         5: Logout")
         return check_number_in_range(1, 5)
 
+    @staticmethod
+    def view_task_options():
+        print("\nMenu: ")
+        print("         1: Sort by Priority")
+        print("         2: Sort by Name")
+        print("         3: Sort by Due Date")
+        return check_number_in_range(1, 3)
+
 def main():
     pass
 

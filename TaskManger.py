@@ -3,7 +3,6 @@ import Task
 from UserView import *
 
 class TaskManager:
-
     def __init__(self, filename):
         # Initialize a TaskManager with a JSON file for storing tasks
         self.filename = filename
@@ -20,7 +19,7 @@ class TaskManager:
                 case 3:
                     ...
                 case 4:
-                    ...
+                    cls.view_tasks(username)
                 case 5:
                     break
 
@@ -69,6 +68,37 @@ class TaskManager:
         if tasks:
             # Create an instance of the Task class using the data from the JSON dictionary.
             return Task.Task(**tasks)
+
+    @classmethod
+    # a function that return an array with tasks
+    def get_user_tasks(cls, username):
+        # getting the array inside the json file
+        path = f"UserData/{username}/tasks.json"
+        with open(path, 'r') as file:
+            data = json.load(file)
+        return data
+
+    @staticmethod
+    def print_task(all_tasks):
+        for task in all_tasks:
+            print(task["title"])
+            print(f"Description: {task['description']}")
+            print(f"Due Date: {task['due_date']}")
+            print(f"Priority: {task['priority']}")
+            print(f"Status: {task['status']}")
+
+    @classmethod
+    def view_tasks(cls, username):
+        all_tasks = cls.get_user_tasks(username)
+        choice = UserView.view_task_options()
+
+        match choice:
+            case 1:
+                cls.print_task(sorted(all_tasks, key=lambda x: x["priority"]))
+            case 2:
+                cls.print_task(sorted(all_tasks, key=lambda x: x["title"]))
+            case 3:
+                ...
 
 def main():
     pass
