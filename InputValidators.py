@@ -49,6 +49,31 @@ def verify_argument_not_empty(input_str):
         input_str = input().strip()
     return input_str
 
+def verify_due_date(date_str):
+    """
+      Verify and parse a due date string.
+
+      Args:
+          date_str (str): The input date string in the format DD/MM/YYYY or '0' to skip.
+
+      Returns:
+          datetime or None: A datetime object representing the due date if valid,
+          or None if the input is '0' indicating no due date.
+
+      Raises:
+          ValueError: If the input date string is in an invalid format.
+
+      """
+    while True:
+        if date_str == "0":
+            return None  # Return None to indicate no due date
+
+        try:
+            due_date = datetime.strptime(date_str, "%d/%m/%Y")
+            return due_date
+        except ValueError:
+            date_str = input("Invalid date format. Please use (DD/MM/YYYY) or enter 0 to skip: ")
+
 
 def main():
     pass
