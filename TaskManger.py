@@ -13,7 +13,7 @@ class TaskManager:
             choice = UserView.user_menu()
             match choice:
                 case 1:
-                    ...
+                    Task.Task.create_task(username)
                 case 2:
                     ...
                 case 3:
@@ -35,7 +35,7 @@ class TaskManager:
         )
         return task
 
-    def add_task_to_db(self, task):
+    def add_task_to_db(self,username, task):
 
         # Load the existing JSON file into a Python dictionary
         with open(self.filename, 'r') as file:
@@ -45,10 +45,10 @@ class TaskManager:
         new_task = task.to_dict()
 
         # Append the new user to the "users" list in the dictionary
-        tasks.extend(new_task)
+        tasks[new_task["title"]] = new_task
 
         # Write the updated dictionary back to the JSON file
-        with open('data.json', 'w') as file:
+        with open(f"UserData/{username}/tasks.json", 'w') as file:
             json.dump(tasks, file, indent=4)
 
     def get_task(self, title):
