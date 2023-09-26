@@ -51,23 +51,26 @@ class TaskManager:
         with open(f"UserData/{username}/tasks.json", 'w') as file:
             json.dump(tasks, file, indent=4)
 
-    def get_task(self, title):
+    @classmethod
+    def get_task(cls, username, title):
         """
-         Retrieve a task by its title.
+          Retrieve a task by its title for a specific user.
 
-         Args:
-             title (str): The title of the task to retrieve.
+          Args:
+              username (str): The username of the task owner.
+              title (str): The title of the task to retrieve.
 
-         Returns:
-             Task: An instance of the Task class representing the retrieved task, or None if not found.
-         """
-        with open(self.filename, 'r') as file:
+          Returns:
+              Task or None: An instance of the Task class representing the retrieved task
+                           if found for the specified user, or None if not found.
+          """
+        with open(f"UserData/{username}/tasks.json", 'r') as file:
             tasks = json.load(file)
 
         # Check if there are tasks in the JSON data.
-        if tasks:
-            # Create an instance of the Task class using the data from the JSON dictionary.
-            return Task.Task(**tasks)
+        for task in tasks:
+            if task.title == title:
+                return Task.Task(**task)
 
     @classmethod
     # a function that return an array with tasks
