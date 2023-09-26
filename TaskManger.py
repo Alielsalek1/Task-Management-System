@@ -131,9 +131,7 @@ class TaskManager:
                 cls.print_all_tasks(sorted(all_tasks, key=lambda x: x["title"]))
             case 3:
                 date_format = "%d/%m/%Y"
-                cls.print_task(sorted(all_tasks, key=lambda x: datetime.strptime(x["date"], date_format)))
-
-
+                cls.print_all_tasks(sorted(all_tasks, key=lambda x: datetime.strptime(x["date"], date_format)))
 
 def main():
     pass
