@@ -1,3 +1,5 @@
+import InputValidators
+import TaskManger
 class Task:
 
     def __init__(self, title, description, due_date, priority, status=False):
@@ -86,9 +88,27 @@ class Task:
                 "status": self.status
                 }
 
+    @classmethod
+    def create_task(cls, username):
+        task_title = InputValidators.verify_argument_not_empty(input("Please enter a task title: ").strip())
+
+        task_description = InputValidators.verify_argument_not_empty(input("Please enter the task's description: ").strip())
+
+        task_due_date = InputValidators.verify_due_date(input("Enter the task's due date (DD/MM/YYYY) or 0 to skip: ").strip())
+
+        task_priority = InputValidators.check_number_in_range(1,10)
+
+        task_manager = TaskManger.TaskManager(f"UserData/{username}/tasks.json")
+
+        task = Task(task_title,task_description,str(task_due_date),task_priority)
+
+        task_manager.add_task_to_db(username,task)
+
+
     def __str__(self):
         # Get a string representation of the task
         return self.get_details()
+
 
 def main():
     pass
