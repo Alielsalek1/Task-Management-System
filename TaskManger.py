@@ -17,7 +17,7 @@ class TaskManager:
                 case 2:
                     ...
                 case 3:
-                    ...
+                    cls.delete_task(username)
                 case 4:
                     cls.view_tasks(username)
                 case 5:
@@ -81,16 +81,18 @@ class TaskManager:
         path = f"UserData/{username}/tasks.json"
         with open(path, 'r') as file:
             data = json.load(file)
-        return data
+        return data["all_tasks"]
 
     @staticmethod
     def print_all_tasks(all_tasks):
+        cnt = 1
         for task in all_tasks:
-            print(task["title"])
+            print(f"\n{cnt} - {task['title']}")
             print(f"Description: {task['description']}")
             print(f"Due Date: {task['due_date']}")
             print(f"Priority: {task['priority']}")
-            print(f"Status: {task['status']}")
+            print(f"Status: {task['status']}\n")
+            cnt += 1
 
     @staticmethod
     def list_tasks_titles(all_tasks):
@@ -111,15 +113,19 @@ class TaskManager:
         # an array which is the json file
         all_tasks = cls.get_user_tasks(username)
 
-
+        if not all_tasks:
+            return print("No Tasks to delete")
         cls.list_tasks_titles(all_tasks)
 
         # choose the object you want to delete
-        choice = check_number_in_range(1, len(all_tasks))
+        choice = int(check_number_in_range(1, len(all_tasks)))
         choice -= 1
 
         # filter the data
         filtered_data = [task for task in all_tasks if all_tasks[choice] != task]
+
+        # initializing for the json file
+        json_dict = {"all_tasks": filtered_data}
 
         # clear the json file
         path = f"UserData/{username}/tasks.json"
@@ -127,21 +133,23 @@ class TaskManager:
 
         # put in the filtered data
         with open(path, 'w') as file:
-            json.dump(filtered_data, file, indent=4)
+            json.dump(json_dict, file, indent=4)
+
+        print("Deleted Successfully!!")
 
     @classmethod
     def view_tasks(cls, username):
         all_tasks = cls.get_user_tasks(username)
         choice = UserView.view_task_options()
 
-        match choice:
+        match int(choice):
             case 1:
-                cls.print_all_tasks(sorted(all_tasks, key=lambda x: x["priority"]))
+                cls.print_all_tasks(sorted(all_tasks, key=lambda x: int(x["priority"]), reverse=True))
             case 2:
                 cls.print_all_tasks(sorted(all_tasks, key=lambda x: x["title"]))
             case 3:
                 date_format = "%d/%m/%Y"
-                cls.print_all_tasks(sorted(all_tasks, key=lambda x: datetime.strptime(x["date"], date_format)))
+                cls.print_all_tasks(sorted(all_tasks, key=lambda x: datetime.strptime(x["due_date"], date_format)))
 
 def main():
     pass
