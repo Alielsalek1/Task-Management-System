@@ -115,8 +115,11 @@ class TaskManager:
         # an array which is the json file
         all_tasks = cls.get_user_tasks(username)
 
+        if input("press 0 to cancel or 1 to continue: ") == str(0):
+            return
+
         if not all_tasks:
-            return print("No Tasks to delete")
+            return print("No Tasks to delete!!")
         cls.list_tasks_titles(all_tasks)
 
         # choose the object you want to delete
@@ -165,10 +168,11 @@ class TaskManager:
                 # Print tasks without dates after sorting by title
                 cls.print_all_tasks(sorted(tasks_without_dates, key=lambda x: x["title"]))
 
+            case 4:
+                return
 
 def main():
     pass
-
 
 if __name__ == '__main__':
     main()

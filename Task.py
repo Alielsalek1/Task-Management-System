@@ -94,18 +94,23 @@ class Task:
     @classmethod
     def create_task(cls, username):
         # Prompt the user to input a task title and validate it to ensure it's not empty
-        task_title = InputValidators.verify_argument_not_empty(input("Please enter a task title: ").strip())
+        task_title = InputValidators.verify_argument_not_empty(
+            input("Please enter a task title or 0 to cancel: ").strip())
+        if task_title == str(0):
+            return
 
         # Prompt the user to input a task description and validate it to ensure it's not empty
         task_description = InputValidators.verify_argument_not_empty(
-            input("Please enter the task's description: ").strip())
+            input("Please enter the task's description or 0 to cancel: ").strip())
+        if task_description == str(0):
+            return
 
         # Prompt the user to input a due date in the format DD/MM/YYYY or 0 to skip and validate it
         task_due_date = InputValidators.verify_due_date(
             input("Enter the task's due date (DD/MM/YYYY) or 0 to skip: ").strip())
 
         # Prompt the user to input a task priority within range of 1 to 10
-        print("Please Enter Task Priority:")
+        print("Please Enter Task Priority: ")
         task_priority = InputValidators.check_number_in_range(1, 10)
 
         # Create an instance of the TaskManager class, providing the path to the user's task data file

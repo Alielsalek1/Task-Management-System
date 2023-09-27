@@ -24,7 +24,8 @@ class UserView:
         print("         1: Sort by Priority")
         print("         2: Sort by Name")
         print("         3: Sort by Due Date")
-        return check_number_in_range(1, 3)
+        print("         4: Cancel")
+        return check_number_in_range(1, 4)
 
 def main():
     pass
