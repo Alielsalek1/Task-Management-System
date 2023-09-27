@@ -4,8 +4,18 @@ from User import *
 class UserManger:
     @staticmethod
     def sign_up():
-        username = verify_username(input("Enter your username (no spaces): ").strip())
-        password = verify_password(input("Enter your password (no spaces): ").strip())
+        # get username
+        username = input("Enter your username or 0 to cancel: ").strip()
+        if username == str(0):
+            return
+        username = verify_username(username)
+
+        # get password
+        password = input("Enter your Password or 0 to cancel: ").strip()
+        if password == str(0):
+            return
+        password = verify_password(password)
+
         User(username, password)
 
     @staticmethod
@@ -29,8 +39,18 @@ class UserManger:
 
     @classmethod
     def log_in(cls):
-        username = cls.valid_username(input("Enter your username: ").strip())
-        cls.valid_password(username, input("Enter your Password: ").strip())
+        # get username
+        username = input("Enter your username or 0 to cancel: ").strip()
+        if username == str(0):
+            return
+        username = cls.valid_username(username)
+
+        # get password
+        password = input("Enter your Password or 0 to cancel: ").strip()
+        if password == str(0):
+            return
+        cls.valid_password(username, password)
+
         TaskManager.choose_from_menu(username)
 
 def main():
