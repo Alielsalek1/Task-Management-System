@@ -11,7 +11,7 @@ class TaskManager:
     def choose_from_menu(cls, username):
         while True:
             choice = UserView.user_menu()
-            match choice:
+            match int(choice):
                 case 1:
                     Task.Task.create_task(username)
                 case 2:
@@ -35,17 +35,19 @@ class TaskManager:
         )
         return task
 
-    def add_task_to_db(self, username, task):
+    @staticmethod
+    def add_task_to_db(username, task):
+        path = f"UserData/{username}/tasks.json"
 
         # Load the existing JSON file into a Python dictionary
-        with open(self.filename, 'r') as file:
+        with open(path, 'r') as file:
             tasks = json.load(file)
 
         # Define the new user object
         new_task = task.to_dict()
 
         # Append the new user to the "users" list in the dictionary
-        tasks[new_task["title"]] = new_task
+        tasks["all_tasks"].append(new_task)
 
         # Write the updated dictionary back to the JSON file
         with open(f"UserData/{username}/tasks.json", 'w') as file:
@@ -56,11 +58,11 @@ class TaskManager:
         """
           Retrieve a task by its title for a specific user.
 
-          Args:
+          args:
               username (str): The username of the task owner.
               title (str): The title of the task to retrieve.
 
-          Returns:
+          return:
               Task or None: An instance of the Task class representing the retrieved task
                            if found for the specified user, or None if not found.
           """
@@ -91,21 +93,29 @@ class TaskManager:
             print(f"Status: {task['status']}")
 
     @staticmethod
-    def list_tasks_description(all_tasks):
+    def list_tasks_titles(all_tasks):
+        """
+        list all tasks titles to choose from them
+
+        args: all_tasks an array of objects (task)
+
+        """
         # list tasks title to delete the one the user selects
         cnt = 0
         for task in all_tasks:
             cnt += 1
-            print(f"1 - {task['title']}")
-        return cnt
+            print(f"{cnt} - {task['title']}")
 
     @classmethod
     def delete_task(cls, username):
         # an array which is the json file
         all_tasks = cls.get_user_tasks(username)
 
+
+        cls.list_tasks_titles(all_tasks)
+
         # choose the object you want to delete
-        choice = check_number_in_range(1, cls.list_tasks_description(all_tasks))
+        choice = check_number_in_range(1, len(all_tasks))
         choice -= 1
 
         # filter the data
