@@ -74,7 +74,9 @@ def verify_due_date(date_str):
 
         try:
             due_date = datetime.strptime(date_str, "%d/%m/%Y")
-            return due_date
+            formatted_due_date = due_date.strftime("%d/%m/%Y")
+            return formatted_due_date
+
         except ValueError:
             date_str = input("Invalid date format. Please use (DD/MM/YYYY) or enter 0 to skip: ")
 

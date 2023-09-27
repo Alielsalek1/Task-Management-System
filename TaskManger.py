@@ -3,6 +3,7 @@ import Task
 import datetime
 from UserView import *
 
+
 class TaskManager:
     def __init__(self, filename):
         # Initialize a TaskManager with a JSON file for storing tasks
@@ -155,10 +156,11 @@ class TaskManager:
             case 3:
                 tasks_with_dates, tasks_without_dates = ([task for task in all_tasks if task["due_date"]],
                                                          [task for task in all_tasks if not task["due_date"]])
-                date_format = "%Y/%m/%d"
+
                 # Print tasks with dates after sorting by date
-                cls.print_all_tasks(sorted(tasks_with_dates, key=lambda x: datetime.strptime(x["due_date"],
-                                                                                             date_format)))
+                date_format = "%d/%m/%Y"
+                cls.print_all_tasks(
+                    sorted(tasks_with_dates, key=lambda x: datetime.strptime(x["due_date"], date_format)))
 
                 # Print tasks without dates after sorting by title
                 cls.print_all_tasks(sorted(tasks_without_dates, key=lambda x: x["title"]))
@@ -166,6 +168,7 @@ class TaskManager:
 
 def main():
     pass
+
 
 if __name__ == '__main__':
     main()
