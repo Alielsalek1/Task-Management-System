@@ -51,7 +51,7 @@ def verify_argument_not_empty(input_str):
 
 def empty_json_file(path):
     with open(path, 'w') as file:
-        file.write('{}')
+        file.write('{"all_tasks": []}')
 
 def verify_due_date(date_str):
     """
