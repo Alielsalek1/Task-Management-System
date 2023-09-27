@@ -1,5 +1,7 @@
 import InputValidators
 import TaskManger
+
+
 class Task:
 
     def __init__(self, title, description, due_date, priority, status=False):
@@ -49,6 +51,7 @@ class Task:
     @status.setter
     def status(self, status):
         self._status = status
+
     def update(self, title=None, description=None, due_date=None, priority=None, status=None):
         # Update task attributes if new values are provided
         if title is not None:
@@ -90,20 +93,29 @@ class Task:
 
     @classmethod
     def create_task(cls, username):
+        # Prompt the user to input a task title and validate it to ensure it's not empty
         task_title = InputValidators.verify_argument_not_empty(input("Please enter a task title: ").strip())
 
-        task_description = InputValidators.verify_argument_not_empty(input("Please enter the task's description: ").strip())
+        # Prompt the user to input a task description and validate it to ensure it's not empty
+        task_description = InputValidators.verify_argument_not_empty(
+            input("Please enter the task's description: ").strip())
 
-        task_due_date = InputValidators.verify_due_date(input("Enter the task's due date (DD/MM/YYYY) or 0 to skip: ").strip())
+        # Prompt the user to input a due date in the format DD/MM/YYYY or 0 to skip and validate it
+        task_due_date = InputValidators.verify_due_date(
+            input("Enter the task's due date (DD/MM/YYYY) or 0 to skip: ").strip())
 
-        task_priority = InputValidators.check_number_in_range(1,10)
+        # Prompt the user to input a task priority within range of 1 to 10
+        print("Please Enter Task Priority:")
+        task_priority = InputValidators.check_number_in_range(1, 10)
 
+        # Create an instance of the TaskManager class, providing the path to the user's task data file
         task_manager = TaskManger.TaskManager(f"UserData/{username}/tasks.json")
 
-        task = Task(task_title,task_description,str(task_due_date),task_priority)
+        # Create a Task object using the collected information
+        task = Task(task_title, task_description, str(task_due_date), task_priority)
 
-        task_manager.add_task_to_db(username,task)
-
+        # Add the created task to the user's task database
+        task_manager.add_task_to_db(username, task)
 
     def __str__(self):
         # Get a string representation of the task
@@ -112,6 +124,7 @@ class Task:
 
 def main():
     pass
+
 
 if __name__ == main:
     main()
