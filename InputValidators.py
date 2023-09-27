@@ -2,6 +2,11 @@ import re
 import os
 from datetime import datetime
 
+def go_back(argument):
+    if argument == str(0):
+        return True
+    return False
+
 # a function to check if the input number is in range a minimum and a maximum value
 def check_number_in_range(minimum, maximum):
     number = input(f"Enter a number in range {minimum} - {maximum}: ").strip()
@@ -26,21 +31,39 @@ def check_in_files(username):
 def verify_username(username):
     # check if it is unique before matching the regex pattern
     while check_in_files(username):
-        username = input("Please Enter another username as this one is taken: ").strip()
+        username = input("Please Enter another username as this one is taken or 0 to cancel: ").strip()
 
     pattern = re.compile(r"^[a-zA-Z]+\w*$")
     while not pattern.match(username):
-        username = input("Please Enter a valid username starting with a letter: ").strip()
+
+        if go_back(username):
+            return str(0)
+
+        username = input("Please Enter a valid username starting with a letter or 0 to cancel: ").strip()
+
+        if go_back(username):
+            return str(0)
+
         while check_in_files(username):
-            username = input("Please Enter another username as this one is taken: ").strip()
+            username = input("Please Enter another username as this one is taken or 0 to cancel: ").strip()
+
+            if go_back(username):
+                return str(0)
 
     return username
 
 # verify the password has no spaces
 def verify_password(password):
-    pattern = re.compile(r"^\S$")
-    while pattern.match(password):
-        password = input("Please Enter your password without whitespaces: ").strip()
+
+    if go_back(password):
+        return str(0)
+
+    while ' ' in password:
+        password = input("Please Enter your password without whitespaces or 0 to cancel: ").strip()
+
+        if go_back(password):
+            return str(0)
+
     return password
 
 def verify_argument_not_empty(input_str):
