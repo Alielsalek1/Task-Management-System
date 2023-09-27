@@ -1,5 +1,6 @@
 import json
 import Task
+import datetime
 from UserView import *
 
 class TaskManager:
@@ -140,6 +141,10 @@ class TaskManager:
     @classmethod
     def view_tasks(cls, username):
         all_tasks = cls.get_user_tasks(username)
+
+        if not all_tasks:
+            return print("No Tasks to delete")
+
         choice = UserView.view_task_options()
 
         match int(choice):
@@ -148,11 +153,12 @@ class TaskManager:
             case 2:
                 cls.print_all_tasks(sorted(all_tasks, key=lambda x: x["title"]))
             case 3:
-                tasks_with_dates, tasks_without_dates = ([task for task in all_tasks if task["date"]],
-                                                         [task for task in all_tasks if not task["date"]])
-                date_format = "%d/%m/%Y"
+                tasks_with_dates, tasks_without_dates = ([task for task in all_tasks if task["due_date"]],
+                                                         [task for task in all_tasks if not task["due_date"]])
+                date_format = "%Y/%m/%d"
                 # Print tasks with dates after sorting by date
-                cls.print_all_tasks(sorted(tasks_with_dates, key=lambda x: datetime.strptime(x["date"], date_format)))
+                cls.print_all_tasks(sorted(tasks_with_dates, key=lambda x: datetime.strptime(x["due_date"],
+                                                                                             date_format)))
 
                 # Print tasks without dates after sorting by title
                 cls.print_all_tasks(sorted(tasks_without_dates, key=lambda x: x["title"]))
