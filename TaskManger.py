@@ -148,8 +148,15 @@ class TaskManager:
             case 2:
                 cls.print_all_tasks(sorted(all_tasks, key=lambda x: x["title"]))
             case 3:
+                tasks_with_dates, tasks_without_dates = ([task for task in all_tasks if task["date"]],
+                                                         [task for task in all_tasks if not task["date"]])
                 date_format = "%d/%m/%Y"
-                cls.print_all_tasks(sorted(all_tasks, key=lambda x: datetime.strptime(x["due_date"], date_format)))
+                # Print tasks with dates after sorting by date
+                cls.print_all_tasks(sorted(tasks_with_dates, key=lambda x: datetime.strptime(x["date"], date_format)))
+
+                # Print tasks without dates after sorting by title
+                cls.print_all_tasks(sorted(tasks_without_dates, key=lambda x: x["title"]))
+
 
 def main():
     pass
