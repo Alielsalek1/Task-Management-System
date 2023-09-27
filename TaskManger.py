@@ -1,6 +1,7 @@
 import json
 import Task
 import datetime
+import InputValidators
 from UserView import *
 
 
@@ -17,7 +18,7 @@ class TaskManager:
                 case 1:
                     Task.Task.create_task(username)
                 case 2:
-                    ...
+                    Task.Task.edit_task(username)
                 case 3:
                     cls.delete_task(username)
                 case 4:
@@ -37,44 +38,44 @@ class TaskManager:
         )
         return task
 
-    @staticmethod
-    def add_task_to_db(username, task):
+    @classmethod
+    def add_task_to_db(cls, username, task):
         path = f"UserData/{username}/tasks.json"
 
-        # Load the existing JSON file into a Python dictionary
-        with open(path, 'r') as file:
-            tasks = json.load(file)
+        # Get all the user's tasks from the JSON file
+        all_tasks = cls.get_user_tasks(username)
 
-        # Define the new user object
-        new_task = task.to_dict()
+        # Append the new task to the existing list of tasks
+        all_tasks.append(task.to_dict())
 
-        # Append the new user to the "users" list in the dictionary
-        tasks["all_tasks"].append(new_task)
+        # Create a dictionary containing all the tasks
+        tasks = {"all_tasks": all_tasks}
 
         # Write the updated dictionary back to the JSON file
         with open(f"UserData/{username}/tasks.json", 'w') as file:
+            # Serialize the tasks dictionary and write it to the file with proper indentation
             json.dump(tasks, file, indent=4)
 
     @classmethod
-    def get_task(cls, username, title):
-        """
-          Retrieve a task by its title for a specific user.
+    def update_task_in_db(cls, username, old_task, new_task):
+        path = f"UserData/{username}/tasks.json"
 
-          args:
-              username (str): The username of the task owner.
-              title (str): The title of the task to retrieve.
+        # Get all the user's tasks from the JSON file
+        all_tasks = cls.get_user_tasks(username)
 
-          return:
-              Task or None: An instance of the Task class representing the retrieved task
-                           if found for the specified user, or None if not found.
-          """
-        with open(f"UserData/{username}/tasks.json", 'r') as file:
-            tasks = json.load(file)
+        # Create a new list of tasks excluding the old task that matches the title
+        filtered_data = [task for task in all_tasks if task.get("title") != old_task.title]
 
-        # Check if there are tasks in the JSON data.
-        for task in tasks:
-            if task.title == title:
-                return Task.Task(**task)
+        # Append the new task to the filtered data list
+        filtered_data.append(new_task.to_dict())
+
+        # Create a dictionary containing all the tasks
+        tasks = {"all_tasks": filtered_data}
+
+        # Write the updated dictionary back to the JSON file
+        with open(f"UserData/{username}/tasks.json", 'w') as file:
+            # Serialize the tasks dictionary and write it to the file with proper indentation
+            json.dump(tasks, file, indent=4)
 
     @classmethod
     # a function that return an array with tasks
@@ -141,6 +142,7 @@ class TaskManager:
             json.dump(json_dict, file, indent=4)
 
         print("Deleted Successfully!!")
+
 
     @classmethod
     def view_tasks(cls, username):
