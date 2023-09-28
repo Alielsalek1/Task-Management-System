@@ -1,65 +1,84 @@
-from TaskManger import *
-from User import *
+from InputValidators import *
+import json
 
 class UserManger:
     @staticmethod
-    def sign_up():
-        # get username
-        username = verify_username(input("Enter your username or 0 to cancel: ").strip())
-        if username == str(0):
-            return
-
-        # get password
-        password = verify_password(input("Enter your Password or 0 to cancel: ").strip())
-        if password == str(0):
-            return
-
-        User(username, password)
-
-    @staticmethod
-    def valid_username(username):
-        if go_back(username):
-            return str(0)
-
-        # check if there is a directory with the username, so it has data, so it is valid
-        while not check_in_files(username):
-            username = input("Please Enter a valid username or 0 to cancel: ").strip()
-            if go_back(username):
-                return str(0)
-
-        return username
-
-    @staticmethod
-    def valid_password(username, password):
-        if go_back(password):
-            return str(0)
-
+    def get_password_from_db(username):
         # opening the json file to check the password matches the one the user gave us
-        file_path = f"UserData/{username}/Credentials.json"
-        with open(file_path, 'r') as json_file:
+        with open(f"UserData/{username}/Credentials.json", 'r') as json_file:
             data = json.load(json_file)
 
-        # check the password matches
-        while password != data["password"]:
-            password = input("re enter your password or 0 to cancel: ").strip()
-            if go_back(password):
-                return str(0)
+        return data["password"]
 
-        return password
+    @staticmethod
+    def empty_tasks_json_file(path):
+        with open(path, 'w') as file:
+            file.write('{"all_tasks": []}')
 
     @classmethod
-    def log_in(cls):
-        # get username
-        username = cls.valid_username(input("Enter your username or 0 to cancel: ").strip())
-        if go_back(username):
-            return
+    # creating empty tasks JSON file to read a list of tasks
+    def create_tasks_json(cls, file_path):
+        tasks_file = os.path.join(file_path, "tasks.json")
+        cls.empty_tasks_json_file(tasks_file)
 
-        # get password
-        password = cls.valid_password(username, input("Enter your Password or 0 to cancel: ").strip())
-        if go_back(password):
-            return
+    @staticmethod
+    # convert a JSON file to a string
+    def get_json_data(username, password):
+        # credentials of the user to be stored as a json file
+        data = {
+            "username": username,
+            "password": password
+        }
 
-        TaskManager.choose_from_menu(username)
+        # creating the string data to be ready to be added to directory
+        return json.dumps(data, indent=4)
+
+    @staticmethod
+    def create_username_dir(file_path):
+        # creating a directory holding the username to store his data
+        os.mkdir(file_path)
+
+    @staticmethod
+    def create_credentials(file_path, json_data):
+        # Path for storing credentials
+        credentials_file = os.path.join(file_path, "Credentials.json")
+
+        # Save credentials to json file
+        with open(f"{credentials_file}", 'w') as file:
+            file.write(json_data)
+
+    @classmethod
+    def add_user_to_db(cls, username, password):
+        """
+        Adds a new user to the database.
+
+        This method creates a directory with the user's username as the directory name.
+        Inside this directory, two files are created:
+        - 'credentials.json': Contains the user's username and password.
+        - 'tasks.json': An empty JSON file to store the user's tasks.
+
+        Args:
+            username (str): The user's username.
+            password (str): The user's password.
+
+        Returns:
+            None
+
+        Note:
+            This method assumes that the 'UserData' directory already exists.
+        """
+        # get the data as a string
+        json_data = cls.get_json_data(username, password)
+
+        # create the file_path and create username directory
+        file_path = os.path.join("UserData", username)
+        cls.create_username_dir(file_path)
+
+        # create the tasks.json file
+        cls.create_tasks_json(file_path)
+
+        # create the credentials.json file and fill it with our json_data
+        cls.create_credentials(file_path, json_data)
 
 def main():
     pass

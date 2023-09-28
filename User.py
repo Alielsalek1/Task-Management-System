@@ -1,6 +1,5 @@
-import os
-import json
-from InputValidators import *
+from UserManger import *
+from TaskManger import *
 
 class User:
     def __init__(self, username, password):
@@ -8,7 +7,7 @@ class User:
         self._password = password
         self._tasks = {}
 
-        self.add_user_to_db(username, password)
+        UserManger.add_user_to_db(username, password)
 
     @property
     def username(self):
@@ -26,31 +25,65 @@ class User:
     def password(self, password):
         self._password = password
 
+    @classmethod
+    def sign_up(cls):
+        # get username
+        username = verify_username(input("Enter your username or 0 to cancel: ").strip())
+        if pressed_zero(username):
+            return
+
+        # get password
+        password = verify_password(input("Enter your Password or 0 to cancel: ").strip())
+        if pressed_zero(password):
+            return
+
+        # construct the user
+        User(username, password)
+
     @staticmethod
-    def add_user_to_db(username, password):
-        # credentials of the user to be stored as a json file
-        data = {
-            "username": username,
-            "password": password
-        }
+    def valid_username(username):
+        if pressed_zero(username):
+            return str(0)
 
-        # creating the string data to be ready to be added to directory
-        json_data = json.dumps(data, indent=4)
+        # check if there is a directory with the username, so it has data, so it is valid
+        while not check_in_files(username):
+            username = input("Please Enter a valid username or 0 to cancel: ").strip()
 
-        # creating a directory holding the username to store his data
-        file_path = os.path.join("UserData", username)
-        os.mkdir(file_path)
+            if pressed_zero(username):
+                return str(0)
 
-        # creating empty tasks json file to read a list of tasks
-        tasks_file = os.path.join(file_path, "tasks.json")
-        empty_json_file(tasks_file)
+        return username
 
-        # Path for storing credentials
-        credentials_file = os.path.join(file_path, "Credentials.json")
+    @staticmethod
+    def valid_password(username, password):
+        if pressed_zero(password):
+            return str(0)
 
-        # Save credentials to json file
-        with open(f"{credentials_file}", 'w') as file:
-            file.write(json_data)
+        # get the password from the user's data
+        matched_pass = UserManger.get_password_from_db(username)
+
+        # check the password matches
+        while password != matched_pass:
+            password = input("re enter your password or 0 to cancel: ").strip()
+
+            if pressed_zero(password):
+                return str(0)
+
+        return password
+
+    @classmethod
+    def log_in(cls):
+        # get username
+        username = cls.valid_username(input("Enter your username or 0 to cancel: ").strip())
+        if pressed_zero(username):
+            return
+
+        # get password
+        password = cls.valid_password(username, input("Enter your Password or 0 to cancel: ").strip())
+        if pressed_zero(password):
+            return
+
+        TaskManager.choose_from_menu(username)
 
 def main():
     pass
