@@ -4,7 +4,7 @@ import TaskManger
 
 class Task:
 
-    def __init__(self, title, description, due_date, priority, status=False):
+    def __init__(self, title, description, due_date, priority, status):
         # Initialize a Task object with provided attributes
         self._title = title
         self._description = description
@@ -54,13 +54,12 @@ class Task:
 
     def get_details(self):
         # Get a formatted string containing task details
-        status_str = "Completed" if self.status else "Incomplete"
         return (
             f"Title: {self.title}\n"
             f"Description: {self.description}\n"
             f"Due Date: {self.due_date}\n"
             f"Priority: {self.priority}\n"
-            f"Status: {status_str}"
+            f"Status: {self.status}"
         )
 
     def to_dict(self):
@@ -77,13 +76,13 @@ class Task:
         # Prompt the user to input a task title and validate it to ensure it's not empty
         task_title = InputValidators.verify_argument_not_empty(
             input("Please enter a task title or 0 to cancel: ").strip())
-        if task_title == str(0):
+        if InputValidators.pressed_zero(task_title):
             return
 
         # Prompt the user to input a task description and validate it to ensure it's not empty
         task_description = InputValidators.verify_argument_not_empty(
             input("Please enter the task's description or 0 to cancel: ").strip())
-        if task_description == str(0):
+        if InputValidators.pressed_zero(task_description):
             return
 
         # Prompt the user to input a due date in the format DD/MM/YYYY or 0 to skip and validate it
@@ -133,13 +132,13 @@ class Task:
         # Prompt the user to edit the task title or 0 to skip
         new_task_title = InputValidators.verify_argument_not_empty(
             input(f"Enter a new task title ({cls.truncate_text(task.title)}) or 0 to skip: ").strip())
-        if new_task_title == "0":
+        if InputValidators.pressed_zero(new_task_title):
             new_task_title = task.title
 
         # Prompt the user to edit the task description or press 0 to skip
         new_task_description = InputValidators.verify_argument_not_empty(
             input(f"Enter a new task description ({cls.truncate_text(task.description)}) or 0 to skip: ").strip())
-        if new_task_description == "0":
+        if InputValidators.pressed_zero(new_task_description):
             new_task_description = task.description
 
         # Prompt the user to edit the due date or press 0 to skip
@@ -149,10 +148,8 @@ class Task:
         new_task_due_date = task.due_date if not new_task_due_date else new_task_due_date
 
         # Prompt the user to edit the task priority or press 0 to skip
+        print(f"Enter a new task priority ({task.priority}).")
         new_task_priority = InputValidators.check_number_in_range(1, 10)
-        if new_task_priority == "0":
-            new_task_priority = task.priority
-
 
         while True:
             # Prompt the user to mark the task as completed or not

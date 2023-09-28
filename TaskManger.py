@@ -3,7 +3,7 @@ import Task
 import datetime
 import InputValidators
 from UserView import *
-
+import UserManger
 
 class TaskManager:
     def __init__(self, filename):
@@ -52,7 +52,7 @@ class TaskManager:
         tasks = {"all_tasks": all_tasks}
 
         # Write the updated dictionary back to the JSON file
-        with open(f"UserData/{username}/tasks.json", 'w') as file:
+        with open(path, 'w') as file:
             # Serialize the tasks dictionary and write it to the file with proper indentation
             json.dump(tasks, file, indent=4)
 
@@ -73,7 +73,7 @@ class TaskManager:
         tasks = {"all_tasks": filtered_data}
 
         # Write the updated dictionary back to the JSON file
-        with open(f"UserData/{username}/tasks.json", 'w') as file:
+        with open(path, 'w') as file:
             # Serialize the tasks dictionary and write it to the file with proper indentation
             json.dump(tasks, file, indent=4)
 
@@ -135,7 +135,7 @@ class TaskManager:
 
         # clear the json file
         path = f"UserData/{username}/tasks.json"
-        empty_json_file(path)
+        UserManger.UserManger.empty_tasks_json_file(path)
 
         # put in the filtered data
         with open(path, 'w') as file:
@@ -151,7 +151,7 @@ class TaskManager:
         if not all_tasks:
             return print("No Tasks to delete")
 
-        choice = UserView.view_task_options()
+        choice = UserView.view_task_menu()
 
         match int(choice):
             case 1:
