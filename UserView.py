@@ -19,7 +19,7 @@ class UserView:
         return check_number_in_range(1, 5)
 
     @staticmethod
-    def view_task_options():
+    def view_task_menu():
         print("\nMenu: ")
         print("         1: Sort by Priority")
         print("         2: Sort by Name")
