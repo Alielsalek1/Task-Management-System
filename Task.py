@@ -4,7 +4,7 @@ import TaskManger
 
 class Task:
 
-    def __init__(self, title, description, due_date, priority, status):
+    def __init__(self, title, description, due_date, priority, status="Incomplete"):
         # Initialize a Task object with provided attributes
         self._title = title
         self._description = description
