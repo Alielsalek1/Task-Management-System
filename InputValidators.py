@@ -2,7 +2,7 @@ import re
 import os
 from datetime import datetime
 
-def go_back(argument):
+def pressed_zero(argument):
     if argument == str(0):
         return True
     return False
@@ -19,12 +19,12 @@ def check_number_in_range(minimum, maximum):
 # check if the username is in the files
 def check_in_files(username):
     # initializing the directory
-    file_path = "UserData"
-    usernames = os.listdir(file_path)
+    usernames = os.listdir("UserData")
 
     # checking if the username is present in the directory
     if username in usernames:
         return True
+
     return False
 
 # a function to check the username starts with a letter then digits and is unique
@@ -35,19 +35,16 @@ def verify_username(username):
 
     pattern = re.compile(r"^[a-zA-Z]+\w*$")
     while not pattern.match(username):
-
-        if go_back(username):
+        if pressed_zero(username):
             return str(0)
 
         username = input("Please Enter a valid username starting with a letter or 0 to cancel: ").strip()
-
-        if go_back(username):
+        if pressed_zero(username):
             return str(0)
 
         while check_in_files(username):
             username = input("Please Enter another username as this one is taken or 0 to cancel: ").strip()
-
-            if go_back(username):
+            if pressed_zero(username):
                 return str(0)
 
     return username
@@ -55,13 +52,13 @@ def verify_username(username):
 # verify the password has no spaces
 def verify_password(password):
 
-    if go_back(password):
+    if pressed_zero(password):
         return str(0)
 
     while ' ' in password:
         password = input("Please Enter your password without whitespaces or 0 to cancel: ").strip()
 
-        if go_back(password):
+        if pressed_zero(password):
             return str(0)
 
     return password
@@ -71,10 +68,6 @@ def verify_argument_not_empty(input_str):
         print("This argument can't be empty: ")
         input_str = input().strip()
     return input_str
-
-def empty_json_file(path):
-    with open(path, 'w') as file:
-        file.write('{"all_tasks": []}')
 
 def verify_due_date(date_str):
     """
@@ -89,7 +82,6 @@ def verify_due_date(date_str):
 
       Raises:
           ValueError: If the input date string is in an invalid format.
-
       """
     while True:
         if date_str == "0":
@@ -102,7 +94,6 @@ def verify_due_date(date_str):
 
         except ValueError:
             date_str = input("Invalid date format. Please use (DD/MM/YYYY) or enter 0 to skip: ")
-
 
 def main():
     pass
