@@ -1,9 +1,15 @@
 from InputValidators import *
 import json
+import bcrypt
 
 class UserManger:
     @staticmethod
-    def get_password_from_db(username):
+    # encode your password to store it in the database
+    def encode(password):
+        return str(bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8'))
+
+    @staticmethod
+    def get_hashed_password_from_db(username):
         # opening the json file to check the password matches the one the user gave us
         with open(f"UserData/{username}/Credentials.json", 'r') as json_file:
             data = json.load(json_file)
@@ -21,13 +27,13 @@ class UserManger:
         tasks_file = os.path.join(file_path, "tasks.json")
         cls.empty_tasks_json_file(tasks_file)
 
-    @staticmethod
+    @classmethod
     # convert a JSON file to a string
-    def get_json_data(username, password):
+    def get_json_data(cls, username, password):
         # credentials of the user to be stored as a json file
         data = {
             "username": username,
-            "password": password
+            "password": cls.encode(password)
         }
 
         # creating the string data to be ready to be added to directory

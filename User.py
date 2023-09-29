@@ -55,15 +55,19 @@ class User:
         return username
 
     @staticmethod
+    def matched_passowrd(password, stored_password):
+        ...
+
+    @staticmethod
     def valid_password(username, password):
         if pressed_zero(password):
             return str(0)
 
         # get the password from the user's data
-        matched_pass = UserManger.get_password_from_db(username)
+        stored_password = UserManger.get_hashed_password_from_db(username)
 
         # check the password matches
-        while password != matched_pass:
+        while not bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8')):
             password = input("re enter your password or 0 to cancel: ").strip()
 
             if pressed_zero(password):

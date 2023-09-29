@@ -1,6 +1,7 @@
 from UserManger import *
 from InputValidators import *
-import TaskManger as  TM
+import TaskManger as TM
+
 
 class Task:
     def __init__(self, title, description, due_date, priority, status="Incomplete"):
@@ -175,7 +176,7 @@ class Task:
     def write_to_json_file(path, tasks_list):
         # put in the filtered data
         with open(path, 'w') as file:
-            json.dump({"all_tasks" : tasks_list}, file, indent=4)
+            json.dump({"all_tasks": tasks_list}, file, indent=4)
 
     @classmethod
     def delete_task(cls, username):
@@ -191,7 +192,7 @@ class Task:
 
         # Retrieve the required task and all tasks for the user
         required_task = TM.TaskManager.get_task(username, all_tasks)
-        
+
         # Delete the task from the database
         TM.TaskManager.delete_task_from_db(username, required_task, all_tasks)
 
@@ -201,8 +202,10 @@ class Task:
         # Get a string representation of the task
         return self.get_details()
 
+
 def main():
     pass
+
 
 if __name__ == main:
     main()
